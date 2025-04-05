@@ -1,50 +1,33 @@
-# React + TypeScript + Vite
+# Bộ môn : Kiến trúc phần mềm hướng dịch vụ
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Đề tài : THIẾT KẾ TRANG WEB CHUYỂN TIỀN CỦA NGÂN HÀNG REEN BANK BẰNG KIẾN TRÚC HƯỚNG SỰ KIỆN (Event-Driven Architecture)
 
-Currently, two official plugins are available:
+# Mô tả và mục tiêu dự án
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+# Mô tả
+- Dự án xây dựng một hệ thống chuyển tiền trực tuyến cho ngân hàng REEN BANK dựa trên kiến trúc hướng sự kiện (Event-Driven Architecture). Hệ thống mô phỏng quy trình chuyển tiền giữa các tài khoản trong nội bộ ngân hàng hoặc liên ngân hàng, xử lý qua các service độc lập giao tiếp qua hàng đợi sự kiện.
+# Mục tiêu
+- Hiểu và áp dụng kiến trúc hướng sự kiện trong thực tiễn.
+- Thiết kế hệ thống ngân hàng với khả năng mở rộng, dễ bảo trì, xử lý phi đồng bộ hiệu quả.
+- Triển khai frontend bằng React + Tailwind CSS, backend bằng Spring Boot.
+- Sử dụng MongoDB làm hệ quản trị cơ sở dữ liệu và Postman để kiểm thử API.
+# Tác giả
+- Mai Xuân Nhân - https://github.com/Mai-Xuan-Nhan
+- Nguyễn Văn Tú - https://github.com/VanwTus09
+# Kiến thức áp dụng
+- Kiến trúc phần mềm hướng sự kiện (Event-Driven Architecture)
+- Microservices với Spring Boot
+- Giao tiếp phi đồng bộ (Asynchronous Messaging)
+- Thiết kế giao diện với React và Tailwind CSS
+- Quản lý dữ liệu với MongoDB
+- RESTful API và kiểm thử với Postman
+# Các phần liên quan
+- Link github Drive (dự phòng): https://drive.google.com/drive/u/1/folders/15DFatz1CKApCp71TmJbP5VvfCoPUBEuC
+# Hướng dẫn sử dụng
+- Clone project từ GitHub (Frontend ở nhánh master, Backend ở nhánh Backend)
+- Chạy backend với Spring Boot (./mvnw spring-boot:run)
+- Khởi động MongoDB server
+- Chạy frontend bằng lệnh npm start trong thư mục React
+- Sử dụng Postman để kiểm thử các API (có sẵn file collection)
+# Lời cảm ơn
+Nhóm chúng em xin chân thành cảm ơn thầy Võ Văn Hải, chúc thầy sức khỏe và tất cả những điều tốt đẹp nhất !
