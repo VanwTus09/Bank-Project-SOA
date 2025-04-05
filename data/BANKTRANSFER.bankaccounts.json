@@ -1,0 +1,16 @@
+[{
+  "_id": "0901234567",
+  "balance": 990000,
+  "currency": "VND",
+  "_class": "banktransfer.banktransferservice.queue.model.BankAccount"
+},
+{
+  "_id": "0901234568",
+  "balance": 3000000,
+  "currency": "VND"
+},
+{
+  "_id": "0901234569",
+  "balance": 990000,
+  "currency": "VND"
+}]

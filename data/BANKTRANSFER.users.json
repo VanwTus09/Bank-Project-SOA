@@ -1,0 +1,15 @@
+[{
+  "_id": "0901234567",
+  "fullName": "Nguyễn Văn A",
+  "password": "123456"
+},
+{
+  "_id": "0901234568",
+  "fullName": "Trần Thị B",
+  "password": "abcdef"
+},
+{
+  "_id": "0901234569",
+  "fullName": "Lê Văn C",
+  "password": "pass123"
+}]

@@ -1,0 +1,27 @@
+[{
+  "_id": {
+    "$oid": "67e82ebda862d9697030c743"
+  },
+  "phoneNumber": "0901234567",
+  "contactName": "Nguyen Van A",
+  "contactAccount": "0902234567",
+  "bankName": "Bank A"
+},
+{
+  "_id": {
+    "$oid": "67e82ec8a862d9697030c746"
+  },
+  "phoneNumber": "0901234567",
+  "contactName": "Tran Thi B",
+  "contactAccount": "0902234568",
+  "bankName": "Bank B"
+},
+{
+  "_id": {
+    "$oid": "67e82ecfa862d9697030c748"
+  },
+  "phoneNumber": "0901234568",
+  "contactName": "Le Van C",
+  "contactAccount": "0902234569",
+  "bankName": "Bank C"
+}]

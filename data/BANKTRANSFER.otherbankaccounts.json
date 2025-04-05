@@ -1,0 +1,22 @@
+[{
+  "_id": "0902234567",
+  "bankName": "Bank A",
+  "fullName": "Nguyen Van A",
+  "currency": "VND",
+  "balance": 110000,
+  "_class": "banktransfer.banktransferservice.queue.model.OtherBankAccount"
+},
+{
+  "_id": "0902234568",
+  "bankName": "Bank B",
+  "fullName": "Tran Thi B",
+  "balance": 200000,
+  "currency": "VND"
+},
+{
+  "_id": "0902234569",
+  "bankName": "Bank C",
+  "fullName": "Le Van C",
+  "balance": 300000,
+  "currency": "VND"
+}]

@@ -1,0 +1,26 @@
+[{
+  "_id": {
+    "$oid": "67efa6660f95692ead21ae3c"
+  },
+  "phoneNumber": "0901234567",
+  "toFullName": "Nguyen Van A",
+  "description": "Chuyển tiền",
+  "completedAt": {
+    "$date": "2025-04-04T09:29:10.300Z"
+  },
+  "money": 5000,
+  "_class": "banktransfer.banktransferservice.queue.model.Transaction"
+},
+{
+  "_id": {
+    "$oid": "67efa69e0f95692ead21ae3e"
+  },
+  "phoneNumber": "0901234567",
+  "toFullName": "Nguyen Van A",
+  "description": "Chuyển tiền",
+  "completedAt": {
+    "$date": "2025-04-04T09:30:06.229Z"
+  },
+  "money": 5000,
+  "_class": "banktransfer.banktransferservice.queue.model.Transaction"
+}]

@@ -26,5 +26,11 @@ public class LoginHistoryController {
         }
         return loginHistories; // Trả về danh sách thông báo
     }
-    
+    @PostMapping("/loginlatest")//phần này bổ trợ FE thôi
+    public LoginHistory loginlatest(@RequestBody LoginHistory loginHistory) {
+        System.out.println(loginHistory);
+        LoginHistory getLoginLatest = loginHistoryService.saveLoginHistory( loginHistory );
+        
+        return getLoginLatest;
+    }
 }

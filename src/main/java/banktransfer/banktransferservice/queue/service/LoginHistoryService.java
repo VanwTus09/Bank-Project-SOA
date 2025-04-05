@@ -19,4 +19,7 @@ public class LoginHistoryService {
     public List<LoginHistory> getLoginHistoryByPhoneNumber(String phoneNumber) {
         return loginHistoryRepository.findByPhoneNumber(phoneNumber);
     }
+    public LoginHistory saveLoginHistory(LoginHistory loginHistory) {
+        return loginHistoryRepository.save(loginHistory);
+    }
 }
