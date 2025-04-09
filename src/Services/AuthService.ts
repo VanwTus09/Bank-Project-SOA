@@ -30,7 +30,7 @@ export interface TransactionItem{
   toFullName : string;
 }
 export interface OtherbankItem{
-  id : string;
+  contactAccount : string;
   bankName: string;
   fullName : string;
   currency : string;

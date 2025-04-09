@@ -11,7 +11,7 @@ export const loginsavetime = async ( phoneNumber: string) => {
       body: JSON.stringify({ phoneNumber, loginTime }),
     });
 
-    return response.json()
+    return response.text()
   } catch (err) {
     console.error("Lỗi đăng nhập:", err);
     throw err;

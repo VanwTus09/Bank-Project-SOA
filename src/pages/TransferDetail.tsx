@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { isBankInSystem } from "../Services/Transfer";
 
 interface LocationState {
   bank: string;
@@ -19,39 +20,48 @@ const TransferDetails: React.FC = () => {
   const [transactionSuccess, setTransactionSuccess] = useState<boolean>(false);
   const [beneficiarySaved, setBeneficiarySaved] = useState<boolean>(false);
   const [recipientName, setRecipientName] = useState<string>(name || "");
-
   useEffect(() => {
-    console.log("Bank name nhận được:", bank);
-  console.log("Account nhận được:", account);
-    if (!name) {
-      fetchRecipientName(account, bank);  // Gọi API khi không có tên người nhận
+    if (!bank || !account) {
+      alert("Thiếu thông tin tài khoản hoặc ngân hàng.");
+      navigate("/TransferSelect");
+      return;
     }
-  }, [account, name, bank]);
-
+  
+    if (!name && recipientName === "") {
+      fetchRecipientName(account, bank);  // Gọi API lấy tên khi cần
+    }
+  }, [bank, account, name, recipientName, navigate]);
+  
+  
   const fetchRecipientName = async (account: string, bankName: string) => {
     try {
       const token = localStorage.getItem("token");
-      if (bankName.toLowerCase().includes("reenbank")) {
-        // API lấy tên người nhận trong hệ thống nếu là ngân hàng Reenbank
-        const userResponse = await fetch(`http://localhost:8080/api/bankaccounts/search/user?phoneNumber=${account}`
+  
+      if (isBankInSystem(bankName)) {
+        const userResponse = await fetch(
+          `http://localhost:8080/api/bankaccounts/search/user?phoneNumber=${account}`
         );
-    
+  
         if (userResponse.ok) {
-          const fullName = await userResponse.text();
-          setRecipientName(fullName); // Gán tên người nhận vào state
+          const userData = await userResponse.json();
+          setRecipientName(userData.fullName);
+          console.log("Tên người nhận nội bộ:", userData);
         } else {
-          alert("Không tìm thấy người nhận với số điện thoại này.");
+          alert("Không tìm thấy người nhận với số điện thoại này trong ReenBank.");
         }
       } else {
-        // API tìm kiếm tài khoản ngoài ngân hàng
-        const otherBankResponse = await fetch(`http://localhost:8080/api/otherbankaccounts/search?id=${account}&bankName=${bankName}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-    
+        const otherBankResponse = await fetch(
+          `http://localhost:8080/api/otherbankaccounts/search?id=${account}&bankName=${bankName}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+  
         if (otherBankResponse.ok) {
           const data = await otherBankResponse.json();
           if (data && data.fullName) {
-            setRecipientName(data.fullName); // Gán tên người nhận từ ngân hàng ngoài
+            setRecipientName(data.fullName);
+            console.log("Tên người nhận ngoài ngân hàng:", data.fullName);
           } else {
             alert("Không tìm thấy người nhận với số tài khoản này trong ngân hàng ngoài.");
           }
@@ -64,6 +74,7 @@ const TransferDetails: React.FC = () => {
       alert("Đã xảy ra lỗi trong quá trình lấy tên người nhận");
     }
   };
+  
   useEffect(() => {
     if (!bank || !account) {
       alert("Thiếu thông tin tài khoản hoặc ngân hàng.");

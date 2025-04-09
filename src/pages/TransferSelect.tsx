@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Contact } from "../Services/AuthService";
+import { Contact, OtherbankItem } from "../Services/AuthService";
 
-// Danh sách ngân hàng
+
 const banksIn = ["Ngân hàng Reen bank"];
 const banksOut = ["Bank A", "Bank B", "Bank C"];
 
@@ -12,6 +12,8 @@ const TransferSelect = () => {
   const [isInBank, setIsInBank] = useState(true);
   const [contacts, setContacts] = useState<Contact[]>([]);
   const navigate = useNavigate();
+
+  const userAccount = localStorage.getItem("phoneNumber");
 
   useEffect(() => {
     fetch("http://localhost:8080/api/contacts")
@@ -23,51 +25,59 @@ const TransferSelect = () => {
       .catch((error) => console.error("Lỗi khi lấy danh bạ:", error));
   }, []);
 
-  const userAccount = localStorage.getItem("phoneNumber");
-
   const checkAccountGreenBank = async (phoneNumber: string): Promise<boolean> => {
     try {
       const response = await fetch(
         `http://localhost:8080/api/bankaccounts/search?phoneNumber=${phoneNumber}`,
-        { method: "GET", headers: { "Content-Type": "application/json" } }
-      );
-
-      if (!response.ok) throw new Error("Không thể kiểm tra tài khoản GreenBank");
-
-      const data = await response.json();
-      return data !== null;
-    } catch (error) {
-      console.error("Lỗi khi kiểm tra tài khoản GreenBank:", error);
-      return false;
-    }
-  };
-
-  const checkAccountOutsideBank = async (bankName: string, accountNumber: string): Promise<boolean> => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/otherbankaccounts/search?bankName=${bankName}&id=${accountNumber}`,
         {
-          method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         }
       );
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("API trả về lỗi: ", errorText);
-        throw new Error("Không thể kiểm tra tài khoản ngoài ngân hàng");
-      }
-
+      if (!response.ok) throw new Error("Không thể kiểm tra tài khoản Reenbank");
       const data = await response.json();
-      return data && data.fullName;
+      return data !== null;
     } catch (error) {
-      console.error("Lỗi khi kiểm tra tài khoản ngoài ngân hàng:", error);
+      console.error("Lỗi khi kiểm tra tài khoản Reenbank:", error);
       return false;
     }
   };
+
+  const fetchAllOutsideAccounts = async (): Promise<OtherbankItem[]> => {
+    try {
+      const response = await fetch("http://localhost:8080/api/otherbankaccounts", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        console.error("Không thể lấy danh sách tài khoản ngoài ngân hàng");
+        return [];
+      }
+
+      const data: OtherbankItem[] = await response.json();
+      console.log(data)
+      return data;
+    } catch (error) {
+      console.error("Lỗi khi fetch tài khoản ngoài ngân hàng:", error);
+      return [];
+    }
+  };
+
+  const checkAccountOutsideBank = async (account: string, bankName: string): Promise<OtherbankItem | null> => {
+    const allAccounts = await fetchAllOutsideAccounts();
+    const matched = allAccounts.find(
+      (acc) => acc.contactAccount.toString === account.toString && acc.bankName === bankName
+    );
+    return matched ?? null;
+  };
+
+  const isBankInSystem = (name: string) =>
+    banksIn.some((b) => b.trim().toLowerCase() === name.trim().toLowerCase());
 
   const handleCheck = async () => {
     if (!account) {
@@ -80,20 +90,29 @@ const TransferSelect = () => {
       return;
     }
 
-    let isAccountValid = false;
+    if (isBankInSystem(bank)) {
+      const valid = await checkAccountGreenBank(account);
+      if (!valid) {
+        alert("Tài khoản không tồn tại trong ReenBank.");
+        return;
+      }
 
-    if (isInBank) {
-      isAccountValid = await checkAccountGreenBank(account);
+      navigate("TransferDetail", { state: { bank, account } });
     } else {
-      isAccountValid = await checkAccountOutsideBank(bank, account);
-    }
+      const result = await checkAccountOutsideBank(account, bank);  
+      if (!result) {
+        alert("Tài khoản không tồn tại ở ngân hàng ngoài.");
+        return;
+      }
 
-    if (!isAccountValid) {
-      alert("Tài khoản người nhận không tồn tại.");
-      return;
+      navigate("TransferDetail", {
+        state: {
+          bank,
+          account,
+          name: result.fullName,
+        },
+      });
     }
-
-    navigate("TransferDetail", { state: { bank, account } });
   };
 
   const handleSelectSaved = (contact: Contact) => {
@@ -133,7 +152,15 @@ const TransferSelect = () => {
           </button>
         </div>
 
-        <select className="border p-3 w-full" value={bank} onChange={(e) => setBank(e.target.value)}>
+        <select
+          className="border p-3 w-full"
+          value={bank}
+          onChange={(e) => {
+            const selected = e.target.value;
+            setBank(selected);
+            setIsInBank(isBankInSystem(selected));
+          }}
+        >
           {(isInBank ? banksIn : banksOut).map((b) => (
             <option key={b} value={b}>
               {b}
@@ -152,7 +179,10 @@ const TransferSelect = () => {
         />
       </div>
 
-      <button onClick={handleCheck} className="bg-blue-500 text-white px-6 py-3 mt-4">
+      <button
+        onClick={handleCheck}
+        className="bg-blue-500 text-white px-6 py-3 mt-4"
+      >
         Xác nhận
       </button>
 
