@@ -14,6 +14,9 @@
 # Tác giả
 - Mai Xuân Nhân - https://github.com/Mai-Xuan-Nhan
 - Nguyễn Văn Tú - https://github.com/VanwTus09
+# Tài khoản demo
+- TK : 0901234567
+- pass: 123456
 # Kiến thức áp dụng
 - Kiến trúc phần mềm hướng sự kiện (Event-Driven Architecture)
 - Microservices với Spring Boot
