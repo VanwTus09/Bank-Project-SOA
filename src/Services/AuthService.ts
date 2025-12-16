@@ -24,7 +24,7 @@ export interface NotificationItem{
 }
 export interface TransactionItem{
   description : string;
-  phoneNUmber : string;
+  phoneNumber : string;
   money :number;
   completedAt : string;
   toFullName : string;

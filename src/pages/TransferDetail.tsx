@@ -144,25 +144,32 @@ const TransferDetails: React.FC = () => {
 
   const handleSaveBeneficiary = async () => {
     try {
-      const res = await fetch("/api/save-beneficiary", {
-        method: "POST",
+      const res = await fetch("http://localhost:8080/api/contacts", {
+        method: "POST", 
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // ✅ Thêm token nếu API cần xác thực
         },
-        body: JSON.stringify({ bank, account, name: recipientName }),
+        body: JSON.stringify({
+          bank,
+          account,
+          name: recipientName,
+        }),
       });
-
+  
       if (res.ok) {
         setBeneficiarySaved(true);
+        console.log(res)
         alert("Đã lưu người thụ hưởng thành công");
       } else {
-        alert("Đã tồn tại người thụ hưởng");
+        alert("Người thụ hưởng đã tồn tại hoặc lỗi khác.");
       }
     } catch (error) {
       console.error("Lỗi khi lưu người thụ hưởng:", error);
       alert("Lỗi hệ thống khi lưu người thụ hưởng");
     }
   };
+  
 
   return (
     <div className="p-6">
