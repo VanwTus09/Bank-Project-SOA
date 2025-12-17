@@ -22,7 +22,7 @@ pipeline {
         APP_NAME    = 'bank-jdo'
         APP_DIR     = '/home/deploy/bank-soa'
         VM_USER     = 'deploy'
-        VM_HOST     = '192.168.2.37' 
+        VM_HOST     = '100.126.164.20' 
         VM_PORT     = '22'
         SSH_CRED_ID = 'vm-ssh'
   }
